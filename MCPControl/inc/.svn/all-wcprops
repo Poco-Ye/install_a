@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/MCPControl/inc
+END
+mcp_cipher.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/MCPControl/inc/mcp_cipher.h
+END
+MCPUtil.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/MCPControl/inc/MCPUtil.h
+END
+mcp_dgst.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/MCPControl/inc/mcp_dgst.h
+END
+mcp_buff.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/MCPControl/inc/mcp_buff.h
+END
+mcp_config.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/MCPControl/inc/mcp_config.h
+END
+hresult.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/MCPControl/inc/hresult.h
+END
+mcp_api.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/MCPControl/inc/mcp_api.h
+END

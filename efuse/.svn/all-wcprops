@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/efuse
+END
+rtk_efuse.c
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/efuse/rtk_efuse.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/efuse/Makefile
+END

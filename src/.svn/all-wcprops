@@ -1,0 +1,125 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/col/DVR/!svn/ver/957292/branches/kylin/flash_environment_32bit/install_a_kylin/src
+END
+rtk_parameter.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_parameter.cpp
+END
+rtk_mtd.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_mtd.cpp
+END
+rtk_main.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/col/DVR/!svn/ver/924465/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_main.cpp
+END
+rtk_tar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_tar.cpp
+END
+rtk_common.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_common.cpp
+END
+rtk_onlineupgrade.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_onlineupgrade.cpp
+END
+rtk_xml.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_xml.cpp
+END
+rtk_customer.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/col/DVR/!svn/ver/894245/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_customer.cpp
+END
+rtk_tagflow.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/col/DVR/!svn/ver/932203/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_tagflow.cpp
+END
+rtk_verify.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_verify.cpp
+END
+rtk_pc_simulate.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_pc_simulate.cpp
+END
+rtk_config.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/col/DVR/!svn/ver/924985/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_config.cpp
+END
+rtk_burn.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/col/DVR/!svn/ver/924985/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_burn.cpp
+END
+rtk_wget.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_wget.cpp
+END
+rtk_factory.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_factory.cpp
+END
+rtk_urltar.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_urltar.cpp
+END
+rtk_programmer.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_programmer.cpp
+END
+rtk_imgdesc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/col/DVR/!svn/ver/957292/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_imgdesc.cpp
+END
+rtk_fwdesc.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/col/DVR/!svn/ver/912878/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_fwdesc.cpp
+END
+rtk_boottable.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/col/DVR/!svn/ver/956139/branches/kylin/flash_environment_32bit/install_a_kylin/src/rtk_boottable.cpp
+END

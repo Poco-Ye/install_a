@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/col/DVR/!svn/ver/957337/branches/kylin/flash_environment_32bit/install_a_kylin
+END
+Makefile.x86
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/Makefile.x86
+END
+make_release.sh
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/make_release.sh
+END
+install_a.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/col/DVR/!svn/ver/894245/branches/kylin/flash_environment_32bit/install_a_kylin/install_a.cpp
+END
+install_a_pc
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/install_a_pc
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/col/DVR/!svn/ver/924985/branches/kylin/flash_environment_32bit/install_a_kylin/Makefile
+END
+Makefile.pc
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/col/DVR/!svn/ver/957337/branches/kylin/flash_environment_32bit/install_a_kylin/Makefile.pc
+END

@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/pc
+END
+parse_nand_list.pl
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/pc/parse_nand_list.pl
+END
+mconf
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/pc/mconf
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/pc/readme.txt
+END
+flash_nand_list.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/pc/flash_nand_list.h
+END

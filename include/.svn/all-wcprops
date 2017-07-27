@@ -1,0 +1,149 @@
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/col/DVR/!svn/ver/956131/branches/kylin/flash_environment_32bit/install_a_kylin/include
+END
+rtk_urltar.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_urltar.h
+END
+rtk_imgdesc.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/col/DVR/!svn/ver/924985/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_imgdesc.h
+END
+rtk_fwdesc.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/col/DVR/!svn/ver/932171/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_fwdesc.h
+END
+rtk_boottable.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/col/DVR/!svn/ver/924985/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_boottable.h
+END
+rtk_programmer.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_programmer.h
+END
+rtk_parameter.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_parameter.h
+END
+rtk_mtd.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_mtd.h
+END
+rtk_main.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_main.h
+END
+rtk_tar.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_tar.h
+END
+io.h
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/io.h
+END
+rtk_common.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/col/DVR/!svn/ver/924985/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_common.h
+END
+rtk_onlineupgrade.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_onlineupgrade.h
+END
+rtk_def.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/col/DVR/!svn/ver/932171/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_def.h
+END
+rtk_xml.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_xml.h
+END
+rtk_customer.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_customer.h
+END
+rtk_tagflow.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_tagflow.h
+END
+svnver.h
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svn/col/DVR/!svn/ver/956131/branches/kylin/flash_environment_32bit/install_a_kylin/include/svnver.h
+END
+rtk_verify.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_verify.h
+END
+rtk_config.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_config.h
+END
+extern_param.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/extern_param.h
+END
+rtk_burn.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_burn.h
+END
+rtk_wget.h
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_wget.h
+END
+rtk_factory.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_factory.h
+END
+rtk_efuse.h
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/col/DVR/!svn/ver/893001/branches/kylin/flash_environment_32bit/install_a_kylin/include/rtk_efuse.h
+END

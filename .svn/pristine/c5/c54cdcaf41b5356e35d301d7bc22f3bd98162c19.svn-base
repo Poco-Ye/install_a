@@ -1,0 +1,417 @@
+#include <stdio.h>
+#include <libgen.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <time.h>
+
+#include <rtk_common.h>
+#include <rtk_imgdesc.h>
+#include <rtk_main.h>
+#include <rtk_mtd.h>
+#include <svnver.h>
+#include <sys/reboot.h>
+
+#ifdef TV005_USB_AUTO_SCRIPT
+#include <fake_pli.h>
+#include <util.h>
+extern int rtk_load_usb_script(struct tv005_usb_auto_script* script);
+extern int rtk_burn_rtkimg_from_usb_tsb(struct t_rtkimgdesc* prtkimgdesc);
+struct tv005_usb_auto_script g_script;
+#endif
+
+#define VERONA_SCIT_SIGNATURE_STRING    "SCIT____"
+#define VERONA_SCIT_INSTALL_STRING      "INST____"
+#define VERONA_SCIT_UPGRADE_STRING      "UPGR____"
+
+#ifndef __OFFLINE_GENERATE_BIN__   
+#ifndef PC_SIMULATE
+#define LOG_TO_FILE
+#define TEMPORARY_LOG_FILE "/tmp/install.log"
+#endif
+
+const char INSTALL_A_USAGE[] = \
+"Usage:" \
+" ./install_a <install.img>\r\n" \
+"\r\n" \
+"        <install.img>  -  input install image file.\r\n";
+#else
+const char INSTALL_A_USAGE[] = \
+"Usage:" \
+" ./install_a_x86 <install.img> [-d][-o] <output> [-s] <setting>\r\n" \
+"\r\n" \
+"        <install.img>  -  input file for offline generating image.\r\n" \
+"    -o  <output>       -  output file, if not specified it is in the setting file.\r\n" \
+"    -s  <setting>      -  setting file, default \"setting.txt\".\r\n"\
+" 	 -d 			           -  indicated android off-line generate\r\n"\
+" 	 -e 			           -  indicated target flash_size(M) when you use dynamic partition install.img to gen off-line\r\n";
+#endif
+
+int main(int argc, char* argv[])
+{
+   int ret = 0, i = 0;
+   int isImageFileInNand = 0, isURL = 0;
+#ifdef FLASH_OFFLINE_BIN_WRITER
+#ifndef __OFFLINE_GENERATE_BIN__
+    int isOfflineBin = 0;
+#endif
+#endif
+   int isreboot = 0;
+   int c = 0;
+   char *package_file_path = NULL;
+   char *opt_str = NULL;
+   char *tgt_dev = NULL;
+   char *compress_srting = NULL;
+   struct t_rtkimgdesc rtkimgdesc;
+   time_t stime, etime;   
+#ifndef __OFFLINE_GENERATE_BIN__   
+   struct stat st = {0};
+   char cmd[128] = {0};
+   FILE *fp=NULL;
+#endif
+
+   
+   stime = time(NULL);
+
+   if (argc == 1) {
+      install_fail("\r\n%s\r\n\r\n%s %s rev.%s\r\n", INSTALL_A_USAGE, __DATE__, __TIME__,SVN_REV);
+      return 0;
+   }
+
+   install_ui("\r\n\r\n");
+  
+    
+#ifndef __OFFLINE_GENERATE_BIN__
+   //  re-direct stdout and stderr to a file
+   #ifdef LOG_TO_FILE
+   unlink(TEMPORARY_LOG_FILE);
+	  freopen(TEMPORARY_LOG_FILE, "a", stdout); setbuf(stdout, NULL);
+      freopen(TEMPORARY_LOG_FILE, "a", stderr); setbuf(stderr, NULL);
+   #endif
+
+   install_ui("***************************************************************************\r\n");
+   install_ui("DHC install_a, date:%s, time:%s REV:%s \r\n", __DATE__, __TIME__, SVN_REV);
+   install_ui("***************************************************************************\r\n");
+#else
+   install_ui("===========================================================================\r\n");
+   install_ui("  Offline generate image , date:%s, time:%s REV:%s \r\n", __DATE__, __TIME__, SVN_REV);
+   install_ui("===========================================================================\r\n");
+#endif
+
+
+   // show arg
+   install_debug("argc:%d", argc);
+   for(i=0;i<argc;i++) install_debug(", argv[%d]=%s", i, argv[i]);
+   install_ui("\r\n");
+
+   //initialize rtkimgdesc
+   memset(&rtkimgdesc, 0, sizeof(rtkimgdesc));
+
+   // parsing arg
+   isURL = isImageFileInNand = 0;
+   rtkimgdesc.mode = _INSTALL;
+   isreboot = 1;
+
+#ifndef __OFFLINE_GENERATE_BIN__
+#ifdef FLASH_OFFLINE_BIN_WRITER
+   while ((c = getopt(argc, argv, "o:t:z:s:fnrb")) != -1)
+#else
+   while ((c = getopt(argc, argv, "o:t:z:s:nrb")) != -1)
+#endif
+#else   
+   while ((c = getopt(argc, argv, "o:z:s:e:nrbtwad")) != -1)
+#endif
+   {
+      switch (c)
+      {
+#ifndef __OFFLINE_GENERATE_BIN__
+         case 'o':
+            opt_str = strdup(optarg);
+            if(strncmp((const char*)opt_str, VERONA_SCIT_UPGRADE_STRING, strlen(VERONA_SCIT_UPGRADE_STRING)) == 0)
+            {
+         	   printf("[UPGRAD mode]\r\n");
+               rtkimgdesc.mode = _UPGRAD;
+            }
+            break;
+         case 't':
+            tgt_dev = strdup(optarg);
+            install_log("t Not implemented\r\n");
+            break;
+#ifdef FLASH_OFFLINE_BIN_WRITER
+            case 'f':
+            isOfflineBin = 1;
+            install_log("f Burning off-line generated bin files\r\n");
+            break;   
+#endif            
+#else
+         case 'o':
+            rtkimgdesc.output_path = strdup(optarg);
+            install_log("output file:%s\r\n", rtkimgdesc.output_path);
+            break;
+         case 's':
+            rtkimgdesc.setting_path = strdup(optarg);
+            install_log("setting file:%s\r\n", rtkimgdesc.setting_path);
+            break;
+         case 'b':
+            rtkimgdesc.byte_swap_off = 1;
+            install_log("byte swap off!!!\r\n");
+            break;            
+         case 't':
+            rtkimgdesc.remove_temp_file_off = 1;
+            install_log("remove temp file off!!!\r\n");
+            break;            
+         case 'w':
+            rtkimgdesc.whole_image_on = 1;
+            install_log("whole image on!!!\r\n");
+            break; 
+			case 'a':
+				// default is separated image for each partition
+				rtkimgdesc.all_in_one = 1;
+				install_log("all in one image!\r\n");
+				break;
+		case 'd':
+			rtkimgdesc.bAndroid_path = 1;
+			install_log("layout dev_path should be android path!\r\n");
+			break;
+		case 'e':
+			rtkimgdesc.target_flashM = atoi(optarg);
+			install_info("target_flashM:%u\r\n", rtkimgdesc.target_flashM );
+			break;
+#endif            
+         case 'z':
+            compress_srting = strdup(optarg);
+            if(strstr(compress_srting, "tarlzma"))
+                ;//CompressType = TYPE_TAR_LZMA;
+            install_log("z Not implemented\r\n");
+            break;
+         case 'n': // image file in Nand
+            install_log("[ImageFileInNand mode]\r\n");
+            isImageFileInNand = 1;
+            break;
+         case 'r':
+            isreboot = 0;
+//            rtkimgdesc.stop_reboot = 1;
+            break;           
+         default:
+            ;//usage(progname);
+      }
+   }
+
+   install_debug("opt_str=%s , tgt_dev=%s, compress_srting=%s \n", opt_str, tgt_dev, compress_srting);
+
+	package_file_path = NULL;
+
+   if((optind >= argc)&&(isImageFileInNand==0))
+	{
+      fprintf(stderr, "Can not find package file!\n");
+      return -1;
+   }
+   if(optind < argc)
+   {
+      package_file_path = argv[optind];
+      install_debug("package file path: %s\r\n", package_file_path);
+      if(strncmp(package_file_path, "http", 4) == 0 || \
+         strncmp(package_file_path, "https", 5) == 0 || \
+         strncmp(package_file_path, "ftp", 3) == 0)
+      {
+         isURL = 1;
+      }
+   }
+
+#ifndef __OFFLINE_GENERATE_BIN__
+   if(isImageFileInNand == 1)
+   {
+      // install install.img from local flash
+      //ret = rtk_burn_rtkimg_from_local_flash(&rtkimgdesc);
+      install_debug("rtk_burn_rtkimg_from_local_flash():%d\r\n", ret);
+   }
+   else if(isURL)
+   {
+      // here are two ways to install urltar
+      sprintf(rtkimgdesc.url.url, "%s", package_file_path);
+      if(stat("/tmp/arial.ttf", &st)==0)
+      {
+         // install install.img from ramdisk
+         //ret = rtk_burn_rtkimg_from_urltar_by_downloading_tarfile(&rtkimgdesc);
+         install_debug("rtk_burn_rtkimg_from_urltar_by_downloading_tarfile(%d)\r\n", ret);
+      }
+      else
+      {
+         // install install.img from url
+         // not implemented
+         //ret = rtk_burn_rtkimg_from_urltar(&rtkimgdesc);
+         install_debug("rtk_burn_rtkimg_from_urltar(%d)\r\n", ret);
+      }
+   }
+#ifndef __OFFLINE_GENERATE_BIN__
+#ifdef FLASH_OFFLINE_BIN_WRITER
+    else if (isOfflineBin) {
+        rtkimgdesc.stop_reboot = 1;    
+        memset(rtkimgdesc.tarinfo.tarfile_path, '\0', sizeof(rtkimgdesc.tarinfo.tarfile_path));
+        snprintf(rtkimgdesc.tarinfo.tarfile_path, sizeof(rtkimgdesc.tarinfo.tarfile_path), "%s", package_file_path);
+        install_debug("get binfile path:%s",rtkimgdesc.tarinfo.tarfile_path);
+        ret = rtk_burn_offlineBin_from_usb(&rtkimgdesc);
+    }
+#endif   
+#endif
+   else
+   {
+      // install install.img from USB
+      snprintf(rtkimgdesc.tarinfo.tarfile_path, sizeof(rtkimgdesc.tarinfo.tarfile_path), "%s", package_file_path);
+      #ifdef TV005_USB_AUTO_SCRIPT
+      // load usb script
+      if((ret = rtk_load_usb_script(&g_script)) < 0) 
+      {
+         printf("load usb script failurei!\n");
+         ret = rtk_burn_rtkimg_from_usb(&rtkimgdesc);
+      }
+      else
+      {
+         pli_init();
+         // Firwmare Updating LED Indicators
+         printf("\n** Tv005 Turn LEDs on for updating **\n");
+         REG32 (0xb806118c) = 0x00ff00ff; // red
+         printf("\n***0xb806118c=%x\n", REG32(0xb806118c));
+         REG32 (0xb8061198) = 0x00ff00ff; // green
+         printf("\n***b8060x1198=%x\n", REG32(0xb8061198));
+         ret = rtk_burn_rtkimg_from_usb_tsb(&rtkimgdesc);
+         if(ret == 0) { 
+            #ifdef TV005_USB_AUTO_SCRIPT
+            // Firwmare Updating LED Indicators
+            printf("\n** Tv005 Turn LEDs on for updating success **\n");
+            REG32 (0xb806118c) = 0x000000ff; // red
+            printf("\n***0xb806118c=%x\n", REG32(0xb806118c));
+            REG32 (0xb8061198) = 0x00ff00ff; // green
+            printf("\n***b8060x1198=%x\n", REG32(0xb8061198));
+            #endif
+         }
+         else
+         {
+            #ifdef TV005_USB_AUTO_SCRIPT
+            // Firwmare Updating LED Indicators
+            printf("\n** Tv005 Turn LEDs on for updating failure **\n");
+            REG32 (0xb806118c) = 0x00ff00ff; // red
+            printf("\n***0xb806118c=%x\n", REG32(0xb806118c));
+            REG32 (0xb8061198) = 0x000000ff; // green
+            printf("\n***b8060x1198=%x\n", REG32(0xb8061198));
+            #endif
+         }   
+         pli_close();      
+      }
+      #else
+      ret = rtk_burn_rtkimg_from_usb(&rtkimgdesc);
+      #endif      
+      install_debug("rtk_burn_rtkimg_from_usb(%d)\r\n", ret);
+   }
+#else /* else of ifdef __OFFLINE_GENERATE_BIN__ */
+   // Offline generate image
+   snprintf(rtkimgdesc.tarinfo.tarfile_path, sizeof(rtkimgdesc.tarinfo.tarfile_path), "%s", package_file_path);
+   ret = rtk_offline_generate_bin(&rtkimgdesc);
+#endif /* end of ifdef __OFFLINE_GENERATE_BIN__ */
+
+   etime = time(NULL);
+
+#ifndef __OFFLINE_GENERATE_BIN__
+   install_info("\r\ninstall time:%.0lf seconds\r\n", difftime(etime,stime));
+   install_info("DHC install_a (JH version), date:%s, time:%s REV:%s \r\n", __DATE__, __TIME__, SVN_REV);
+#else
+   install_info("\r\nelapsed time:%.0lf seconds\r\n", difftime(etime,stime));
+   install_info("Offline generate image , date:%s, time:%s REV:%s \r\n", __DATE__, __TIME__, SVN_REV);
+#endif
+
+#ifndef __OFFLINE_GENERATE_BIN__
+	// if stdout and stderr are re-directed to file, we copy it to flash for debug
+	#ifdef LOG_TO_FILE
+	if( ret == 0 )
+		install_info(VT100_LIGHT_GREEN"\r\n=== INSTALL SUCCESS ===\r\n\r\n"VT100_NONE);
+	else
+		install_info(VT100_LIGHT_RED"\r\n=== INSTALL FAIL ===\r\n\r\n"VT100_NONE);
+
+	fp = fopen(TEMPORARY_LOG_FILE, "r");
+	if (fp != NULL) {
+	   	fclose(fp);
+		// copy log file to USB, and umount USB
+#ifdef NAS_ENABLE
+		char *dir = dirname( package_file_path );
+		//remount usb as rw
+		snprintf(cmd, sizeof(cmd), "mount -o remount,rw %s", dir);
+   	   	rtk_command(cmd, __LINE__, __FILE__, 0);
+#else
+		char *dir = dirname( argv[1] );
+#endif
+		sprintf(cmd, "cp -f %s %s/", TEMPORARY_LOG_FILE, dir);
+   	   	rtk_command(cmd, __LINE__, __FILE__, 0);
+
+		sprintf(cmd, "umount %s", dir);
+   	   	rtk_command(cmd, __LINE__, __FILE__, 0);
+    }   
+	#endif
+
+   if(ret == 0) {
+      install_info(VT100_LIGHT_GREEN"\r\n=== INSTALL SUCCESS ===\r\n\r\n"VT100_NONE);
+					
+	if(rtkimgdesc.stop_reboot == 1) {
+         install_info("STOP_REBOOT\r\n");
+	} else {
+		if(rtkimgdesc.start_customer== 1) {
+			for (i = rtkimgdesc.reboot_delay; i > 0; i--) {
+               install_log("reboot after %d seconds...\r", i);
+               fflush(stdout);
+               sleep(1);
+            }
+            install_info("rebooting...                                       \r\n");
+         }
+
+         // umount fs ..
+         strcpy( cmd, "umount ");
+         if( rtkimgdesc.flash_type == MTD_EMMC ) {
+             for( FWTYPE i=FW_ROOTFS; i<=FW_USR_LOCAL_ETC; i=(FWTYPE)(i+1) ) {
+                if( rtkimgdesc.fw[i].flash_allo_size && rtkimgdesc.fw[i].mount_point[0] ) {
+                    sprintf( cmd+strlen(cmd), "/tmp/%s ", rtkimgdesc.fw[i].mount_point );
+                }
+             }
+         }
+         rtk_command( cmd, __LINE__, __FILE__);
+
+#ifdef NAS_ENABLE
+         if(!isreboot){
+            install_info("STOP_REBOOT\r\n");
+         }
+         else
+#endif
+         reboot(RB_AUTOBOOT);
+/*
+         memset(cmd, 0, sizeof(cmd));
+		 snprintf(cmd, sizeof(cmd), "echo enable > /proc/watchdog");
+		 rtk_command( cmd, __LINE__, __FILE__);
+		 sleep(5);
+		 install_info(VT100_LIGHT_GREEN"\r\n=== reboot after 5 seconds ===\r\n\r\n"VT100_NONE);
+		 memset(cmd, 0, sizeof(cmd));
+		 snprintf(cmd, sizeof(cmd), "echo kick > /proc/watchdog");
+		 rtk_command( cmd, __LINE__, __FILE__);
+*/		 
+      }
+   }
+   else if(ret < 0) {
+      install_info(VT100_LIGHT_RED"\r\n=== INSTALL FAIL ===\r\n\r\n"VT100_NONE);
+   }
+   else {
+      install_info(VT100_LIGHT_RED"ret = %d > 0, should not happened!\r\n"VT100_NONE, ret);
+   }
+
+#else
+   if(ret == 0) {
+      install_info(VT100_LIGHT_GREEN"\r\n=== SUCCESS ===\r\n\r\n"VT100_NONE);
+   }
+   else if(ret < 0) {
+      install_info(VT100_LIGHT_RED"\r\n=== FAIL ===\r\n\r\n"VT100_NONE);
+   }
+   else {
+      install_info(VT100_LIGHT_RED"ret = %d > 0, should not happened!\r\n"VT100_NONE, ret);
+   }
+#endif
+
+   return 0;
+}
+

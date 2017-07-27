@@ -1,0 +1,41 @@
+CC=g++
+AR=ar cr
+RANLIB=ranlib
+STRIP=strip
+
+REV=$(shell svnversion -c | awk -F":" '{ print $$2 }')
+
+INCS= -I./include -I./
+
+CFLAGS =  -g -Os -Wall
+
+OBJS= src/rtk_main.o src/rtk_burn.o src/rtk_urltar.o src/rtk_tar.o src/rtk_imgdesc.o src/rtk_fwdesc.o src/rtk_mtd.o src/rtk_common.o src/rtk_config.o src/rtk_factory.o src/rtk_parameter.o src/rtk_tagflow.o src/rtk_boottable.o src/rtk_customer.o
+
+# for pc simulate only
+OBJS+= src/rtk_pc_simulate.o
+DEFINES += -DPC_SIMULATE
+
+DEFINES += -DEMMC_SUPPORT
+DEFINES += -DNFLASH_LAOUT
+#DEFINES += -DGENERIC_LINUX
+#DEFINES += -DNAS_ENABLE
+#DEFINES += -DHYPERVISOR
+#DEFINES += -DTEE_ENABLE
+CFLAGS += $(INCS) $(DEFINES)
+
+all: install
+
+install: $(OBJS) install_a.cpp
+	$(shell echo "#define SVN_REV \"$(REV)\"" > include/svnver.h)
+	$(CC) $(CFLAGS) -c install_a.cpp
+	$(CC) -o install_a_pc $(CFLAGS) $(OBJS) install_a.o $(LIBS)
+	$(STRIP) install_a_pc
+
+clean:
+	rm -rf $(OBJS) *.a *.o *.bak mapfile rtktest install_a_pc oldup newup ./src/*.bak ./include/*.bak *.s *.ii customer
+
+%.o: %.cpp
+	$(CC) -c $< $(CFLAGS) -o $@
+
+%.o: %.c
+	$(CC) -c $< $(CFLAGS) -o $@

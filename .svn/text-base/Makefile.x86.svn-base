@@ -1,0 +1,32 @@
+MYDEFS=
+rm=/bin/rm -f
+cp=/bin/cp -f
+CC=g++
+AR=ar
+CFLAGS=-O2
+
+REV:=$(shell svnversion -c | awk -F":" '{ print $$2 }')
+
+INCS=-I./include
+LIBS=-Wall -static 
+DEFS+=-D__OFFLINE_GENERATE_BIN__ -DEMMC_SUPPORT
+
+OBJS= src/rtk_main_x86.o src/rtk_burn_x86.o src/rtk_urltar_x86.o src/rtk_tar_x86.o src/rtk_imgdesc_x86.o src/rtk_fwdesc_x86.o src/rtk_mtd_x86.o src/rtk_common_x86.o src/rtk_config_x86.o src/rtk_factory_x86.o src/rtk_parameter_x86.o src/rtk_tagflow_x86.o src/rtk_boottable_x86.o src/rtk_customer_x86.o src/rtk_programmer_x86.o
+
+./src/%_x86.o:  ./src/%.cpp
+	$(CC) $(DEFS) $(INCS) $(CFLAGS) $< -c -o $@
+
+all: $(OBJS) install
+
+install: $(OBJS) install_a.cpp
+	$(shell echo "#define SVN_REV \"$(REV)\"" > include/svnver.h)
+	$(CC) $(CFLAGS) $(DEFS) $(INCS) -c install_a.cpp $(LIBS)
+	$(CC) -o install_a_x86 $(CFLAGS) $(OBJS) install_a.o $(LIBS)
+	ls -lh install_a_x86
+
+compiler:
+	echo $(CC)
+
+clean:
+	rm -rf $(OBJS) *.a *.o $(LIBNAME) *.bak mapfile install_a_x86 ./src/*.bak ./include/*.bak *.s *.ii
+
