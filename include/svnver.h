@@ -1,1 +1,1 @@
-#define SVN_REV "957337M"
+#define SVN_REV ""

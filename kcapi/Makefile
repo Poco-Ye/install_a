@@ -2,8 +2,9 @@
 # Copyright (C) 2014, Stephan Mueller <smueller@chronox.de>
 #
 
-CROSS_COMPILER ?= arm-linux
-TOOLCHAIN_PATH ?= ~/toolchain/asdk-4.8.1-a7-EL-3.10-0.9.33-a32nt-130828/
+CROSS_COMPILER ?= arm-linux-gnueabihf
+
+TOOLCHAIN_PATH ?= ~/gcc-linaro-arm-linux-gnueabihf-4.8-2014.04_linux/
 
 AR= $(TOOLCHAIN_PATH)/bin/$(CROSS_COMPILER)-ar cr
 RANLIB=$(TOOLCHAIN_PATH)/bin/$(CROSS_COMPILER)-ranlib

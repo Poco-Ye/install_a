@@ -1,7 +1,6 @@
 # You can adjust the toolchain as you need
-TOOLCHAIN_PATH ?= ~/toolchain/asdk-4.8.1-a7-EL-3.10-0.9.33-a32nt-130828/
-
-CROSS_COMPILER ?= arm-linux
+TOOLCHAIN_PATH ?= ~/gcc-linaro-arm-linux-gnueabihf-4.8-2014.04_linux/
+CROSS_COMPILER ?= arm-linux-gnueabihf
 rm=/bin/rm -f
 cp=/bin/cp -f
 CC= $(TOOLCHAIN_PATH)/bin/$(CROSS_COMPILER)-g++

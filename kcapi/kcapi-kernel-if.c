@@ -59,6 +59,8 @@
 
 #include "kcapi.h"
 
+#define NETLINK_CRYPTO 21 
+
 /* remove once in if_alg.h */
 #ifndef ALG_SET_AEAD_ASSOCLEN
 #define ALG_SET_AEAD_ASSOCLEN		4
